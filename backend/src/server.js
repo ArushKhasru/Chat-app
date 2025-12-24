@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.auth.js';
 import path from "path";
+import { connectDB } from './lib/db.js';
 
 dotenv.config();
 
@@ -23,4 +24,7 @@ app.get ("*", (_, res)=>{
 })
 
 // app.listen(PORT, () => console.log('Server is running at port ' + PORT))
-app.listen(PORT, () => console.log(`Server is running at port ${PORT}`))
+app.listen(PORT, () => {
+    console.log(`Server is running at port ${PORT}`);
+    connectDB();
+})
