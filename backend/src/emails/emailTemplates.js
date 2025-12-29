@@ -1,5 +1,5 @@
-export const createwelcomeEmail=(name, clientURL)=>{
-    return `<!DOCTYPE html>
+export const createwelcomeEmail = (name, clientURL) => {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />

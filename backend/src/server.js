@@ -2,7 +2,7 @@
 import express from 'express';
 import { ENV } from './lib/env.js';
 import authRoutes from './routes/auth.route.js';
-import messageRoutes from './routes/message.auth.js';
+import messageRoutes from './routes/message.route.js';
 import path from "path";
 import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
