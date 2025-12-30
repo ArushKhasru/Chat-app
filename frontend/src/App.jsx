@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ChatPage from "./pages/ChatPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import { useAuthStore } from "./store/useAuthStore";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  //Ripple Effect
+  const [ripples, setRipples] = useState([]);
+
+  useEffect(() => {
+    const move = (e) => {
+      document.documentElement.style.setProperty("--x", `${e.clientX}px`);
+      document.documentElement.style.setProperty("--y", `${e.clientY}px`);
+    };
+
+    const click = (e) => {
+      const id = Date.now();
+      setRipples((r) => [...r, { x: e.clientX, y: e.clientY, id }]);
+      setTimeout(() => {
+        setRipples((r) => r.filter((i) => i.id !== id));
+      }, 600);
+    };
+
+    window.addEventListener("mousemove", move);
+    window.addEventListener("click", click);
+
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("click", click);
+    };
+  }, []);
+  
+
+  //useAuthStore
+  const{authUser,isLoggedIn, login} = useAuthStore();
+  console.log(authUser)
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="min-h-screen bg-slate-950 text-white overflow-hidden">
 
-export default App
+      {/* Spotlight */}
+      <div className="spotlight" />
+
+      {/* Ripples */}
+      {ripples.map((r) => (
+        <div
+          key={r.id}
+          className="ripple"
+          style={{ left: r.x, top: r.y }}
+        />
+      ))}
+
+      <button className="px-4 py-2 bg-indigo-600 rounded" onClick={login}>Login</button>
+
+      {/* App Content */}
+      <div className="relative z-10">
+        <Routes>
+          <Route path="/" element={<ChatPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+        </Routes>
+      </div>
+
+    </div>
+  );
+};
+
+export default App;
