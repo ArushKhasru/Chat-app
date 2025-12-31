@@ -1,67 +1,39 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ChatPage from "./pages/ChatPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import { useAuthStore } from "./store/useAuthStore";
+import { useAuthStore } from "./store/useAuthStore.js";
+import PageLoader from "./components/PageLoader.jsx";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
-  //Ripple Effect
-  const [ripples, setRipples] = useState([]);
-
-  useEffect(() => {
-    const move = (e) => {
-      document.documentElement.style.setProperty("--x", `${e.clientX}px`);
-      document.documentElement.style.setProperty("--y", `${e.clientY}px`);
-    };
-
-    const click = (e) => {
-      const id = Date.now();
-      setRipples((r) => [...r, { x: e.clientX, y: e.clientY, id }]);
-      setTimeout(() => {
-        setRipples((r) => r.filter((i) => i.id !== id));
-      }, 600);
-    };
-
-    window.addEventListener("mousemove", move);
-    window.addEventListener("click", click);
-
-    return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("click", click);
-    };
-  }, []);
-  
 
   //useAuthStore
-  const{authUser,isLoggedIn, login} = useAuthStore();
-  console.log(authUser)
+  const { checkAuth, authUser, isCheckingAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  console.log({ authUser })
+
+  if (isCheckingAuth) return <PageLoader />
+
 
 
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-hidden">
-
-      {/* Spotlight */}
-      <div className="spotlight" />
-
-      {/* Ripples */}
-      {ripples.map((r) => (
-        <div
-          key={r.id}
-          className="ripple"
-          style={{ left: r.x, top: r.y }}
-        />
-      ))}
-
-      <button className="px-4 py-2 bg-indigo-600 rounded" onClick={login}>Login</button>
+      <div className="relative z-10 flex min-h-screen items-center justify-center"></div>
 
       {/* App Content */}
-      <div className="relative z-10">
+      <div>
         <Routes>
-          <Route path="/" element={<ChatPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/" element={authUser ? <ChatPage /> : <Navigate to={"login"} />} />
+          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to={"/"} />} />
+          <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />} />
         </Routes>
+        <Toaster/>
       </div>
 
     </div>

@@ -6,19 +6,22 @@ import messageRoutes from './routes/message.route.js';
 import path from "path";
 import { connectDB } from './lib/db.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+
 
 const app = express();
 const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 
 app.use(express.json());//req.body
+app.use(cors({origin: ENV.CLIENT_URL.replace(/\/$/, ''), credentials:true}))
 app.use(cookieParser());// to compare cookies to check whether the user is valid or not
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
 
 //make ready for deployment
-if (ENV.NODE_ENV === "development") {
+if (ENV.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   app.get("*", (_, res) => {
