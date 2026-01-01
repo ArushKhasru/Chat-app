@@ -5,9 +5,9 @@ import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import {ENV} from "../lib/env.js";
 
 export const signup = async (req,res)=>{
-    const{username, email, password} = req.body
+    const{fullname, email, password} = req.body
     try{
-        if(!username || !email || !password){
+        if(!fullname || !email || !password){
             return res.status(400).json({message: "All fields are required"});
 
         }
@@ -31,7 +31,7 @@ export const signup = async (req,res)=>{
 
     //If user does not exist create a new user
     const newUser = new User({
-        username, 
+        fullname, 
         email,
         password: hashedPassword
     });
@@ -45,12 +45,12 @@ export const signup = async (req,res)=>{
     
         res.status(201).json({
             _id: newUser._id,
-            username: newUser.username,
+            fullname: newUser.fullname,
             email: newUser.email,
             profilepic: newUser.profilepic
         })
         try{
-            await sendWelcomeEmail(savedUser.email, savedUser.username, ENV.CLIENT_URL)
+            await sendWelcomeEmail(savedUser.email, savedUser.fullname, ENV.CLIENT_URL)
     
         }
         catch(error){
@@ -88,7 +88,7 @@ export const login = async (req,res)=>{
 
         res.status(200).json({
             _id: user._id,
-            username: user.username,
+            fullname: user.fullname,
             email: user.email,
             profilepic: user.profilepic
         }); 
@@ -104,6 +104,7 @@ export const login = async (req,res)=>{
 export const logout = (_,res) =>{
     res.cookie("jwt", "", {maxAge: 0})
     res.status(200).json({message: "Logged out successfully"});
+    if(res.status(200)) return console.log("User logged out successfully");
 }
 
 export const updateProfile = async (req,res)=>{
