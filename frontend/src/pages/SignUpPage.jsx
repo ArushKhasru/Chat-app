@@ -132,6 +132,7 @@ export default function SignUpPage() {
             )}
           </button>
         </form>
+        
 
         {/* Footer */}
         <p className="text-center text-sm text-slate-400 mt-6">
