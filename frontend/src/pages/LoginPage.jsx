@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { LoaderIcon, Mail, Lock } from "lucide-react";
+import { LoaderIcon, Mail, Lock, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Chrome } from "lucide-react";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -25,38 +24,34 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-slate-950">
 
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-[#2D1B4E] via-[#1C1C2D] to-[#2D1B4E]">
 
-      <div
-        className="w-full max-w-md rounded-2xl
-                 bg-slate-900/75 backdrop-blur-xl
-                 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.6)]
-                 border border-slate-800"
+      <div className="w-full max-w-md rounded-[2rem] 
+                      bg-[#252331]/80 backdrop-blur-xl
+                      p-10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]
+                      border border-white/10"
       >
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-semibold text-white">
+
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold text-white italic tracking-tight">
             Welcome back
           </h1>
-          <p className="text-slate-400 mt-2">
-            Login to <span className="text-indigo-400 font-medium">BakBak</span>
+          <p className="text-gray-400 mt-3 font-medium">
+            Login to <span className="text-[#7B61FF] italic font-bold">BakBak</span>
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-         
+
+        <form onSubmit={handleSubmit} className="space-y-6">
 
 
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm text-slate-400 mb-1">
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold uppercase tracking-widest text-gray-500 ml-1">
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-slate-500" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 size-5" />
               <input
                 type="email"
                 name="email"
@@ -64,23 +59,21 @@ export default function LoginPage() {
                 onChange={handleChange}
                 placeholder="you@example.com"
                 required
-                className="w-full rounded-lg bg-slate-800/80
-                         pl-11 pr-4 py-3 text-white
-                         border border-slate-700
-                         outline-none
-                         focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
-                         transition"
+                className="w-full rounded-2xl bg-[#1C1B2B]
+                           pl-12 pr-4 py-4 text-white italic
+                           border border-white/5
+                           focus:border-[#7B61FF] focus:ring-1 focus:ring-[#7B61FF]
+                           outline-none transition-all duration-300 placeholder:text-gray-600"
               />
             </div>
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm text-slate-400 mb-1">
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold uppercase tracking-widest text-gray-500 ml-1">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-slate-500" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 size-5" />
               <input
                 type="password"
                 name="password"
@@ -88,43 +81,41 @@ export default function LoginPage() {
                 onChange={handleChange}
                 placeholder="Enter your password"
                 required
-                className="w-full rounded-lg bg-slate-800/80
-                         pl-11 pr-4 py-3 text-white
-                         border border-slate-700
-                         outline-none
-                         focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
-                         transition"
+                className="w-full rounded-2xl bg-[#1C1B2B]
+                           pl-12 pr-4 py-4 text-white
+                           border border-white/5
+                           focus:border-[#7B61FF] focus:ring-1 focus:ring-[#7B61FF]
+                           outline-none transition-all duration-300 placeholder:text-gray-600"
               />
             </div>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={isLoggingIn}
-            className="w-full flex items-center justify-center gap-2
-                     rounded-lg bg-indigo-600 py-3 text-white font-semibold
-                     hover:bg-indigo-500 active:scale-[0.98]
-                     transition disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-3 mt-4
+                       rounded-2xl bg-[#7B61FF] py-4 text-white font-bold
+                       hover:bg-[#6a50e6] active:scale-[0.97]
+                       transition-all duration-300 disabled:opacity-60 shadow-lg shadow-[#7B61FF]/20"
           >
             {isLoggingIn ? (
-              <>
-                <LoaderIcon className="size-5 animate-spin" />
-                Logging in…
-              </>
+              <LoaderIcon className="size-5 animate-spin" />
             ) : (
-              "Login"
+              <>
+                <span>Login</span>
+                <LogIn size={18} />
+              </>
             )}
           </button>
         </form>
-        
+
 
         {/* Footer */}
-        <p className="text-center text-sm text-slate-400 mt-6">
+        <p className="text-center text-sm text-gray-400 mt-8">
           Don’t have an account?{" "}
           <Link
             to="/signup"
-            className="text-indigo-400 hover:text-indigo-300 font-medium transition"
+            className="text-[#7B61FF] hover:text-white transition-colors font-bold underline underline-offset-4"
           >
             Sign up
           </Link>
@@ -133,4 +124,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
