@@ -1,15 +1,67 @@
-import React from 'react'
-import { useAuthStore } from '../store/useAuthStore'
+import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
+import { LogOut, MessageSquare } from "lucide-react";
+import { useState } from "react";
+import Feedback from "../components/Feedback";
 
+import ProfileHeader from "../components/ProfileHeader";
+import ActiveTabSwitch from "../components/ActiveTabSwitch";
+import ChatsList from "../components/ChatList";
+import ContactList from "../components/ContactList";
+import ChatContainer from "../components/ChatContainer";
+import NoConversationPlaceholder from "../components/NoConversationPlaceholder";
 
-export default function ChatPage() {
-  const {logout} = useAuthStore();
+function ChatPage() {
+  const { activeTab, selectedUser } = useChatStore();
+  const { logout } = useAuthStore();
+  const [showFeedback, setShowFeedback] = useState(false);
+
   return (
-    <div>
-      <button  className="w-full flex items-center justify-center gap-2
-                     rounded-lg bg-indigo-600 py-3 text-white font-semibold
-                     hover:bg-indigo-500 active:scale-[0.98]
-                     transition disabled:opacity-60" onClick={logout}>Logout</button>
+    <div className="min-h-screen bg-gradient-to-br from-[#2D1B4E] via-[#1C1C2D] to-[#2D1B4E] flex items-center justify-center p-0 md:p-4 font-sans text-gray-200 overflow-hidden">
+
+      
+      <div className="w-full max-w-6xl h-screen md:h-[85vh] bg-[#252331]/80 backdrop-blur-md md:rounded-3xl flex overflow-hidden shadow-2xl border-none md:border md:border-white/10 relative">
+
+        {/* LEFT SIDE (Sidebar) */}
+        {/* We hide the sidebar on mobile if a user is selected to mimic responsive behavior */}
+        <div className={`${selectedUser ? "hidden" : "flex"} md:flex w-full md:w-80 lg:w-96 border-r border-white/5 flex-col bg-[#2A283E]/50`}>
+          <ProfileHeader />
+          <ActiveTabSwitch />
+
+          <div className="flex-1 overflow-y-auto px-4 space-y-1">
+            {activeTab === "chats" ? <ChatsList /> : <ContactList />}
+          </div>
+        </div>
+
+        {/*  RIGHT SIDE (Chat Area) */}
+        <div className={`${!selectedUser ? "hidden" : "flex"} md:flex flex-1 flex-col bg-[#1E1C2B]/40`}>
+          {selectedUser ? <ChatContainer /> : <NoConversationPlaceholder />}
+        </div>
+      </div>
+
+      {/*  FLOATING LOGOUT (Desktop Only) */}
+      <button
+        onClick={logout}
+        className="hidden md:flex absolute bottom-8 right-8 items-center gap-2 bg-[#1C1B2B] hover:bg-red-900/40 text-white px-6 py-3 rounded-full font-bold transition-all border border-white/10 shadow-xl group"
+      >
+        <span>Logout</span>
+        <LogOut size={18} className="group-hover:translate-x-1 transition-transform" />
+      </button>
+      <button
+        onClick={() => setShowFeedback(true)}
+        className="fixed bottom-24 right-6 flex items-center gap-2 bg-[#7B61FF] hover:bg-[#6a50e6] text-white px-5 py-3 rounded-full font-bold shadow-lg shadow-[#7B61FF]/20 transition-all active:scale-95 z-40 border border-white/10 group"
+      >
+        <MessageSquare size={18} className="group-hover:rotate-12 transition-transform" />
+        <span className="italic">Feedback</span>
+      </button>
+
+      <Feedback
+        isOpen={showFeedback}
+        onClose={() => setShowFeedback(false)}
+      />
     </div>
-  )
+
+  );
 }
+
+export default ChatPage;

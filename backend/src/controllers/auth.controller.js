@@ -1,8 +1,12 @@
 import User from "../models/user.js"
+import feedback from "../models/feedback.js";
 import { generateToken } from "../lib/utils.js";
 import bcrypt from "bcryptjs";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
+import { sendFeedbackEmail } from "../emails/feedbackHandler.js";
 import {ENV} from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
+import Feedback from "../models/feedback.js";
 
 export const signup = async (req,res)=>{
     const{fullname, email, password} = req.body
@@ -47,7 +51,7 @@ export const signup = async (req,res)=>{
             _id: newUser._id,
             fullname: newUser.fullname,
             email: newUser.email,
-            profilepic: newUser.profilepic
+            profilePic: newUser.profilePic
         })
         try{
             await sendWelcomeEmail(savedUser.email, savedUser.fullname, ENV.CLIENT_URL)
@@ -90,7 +94,7 @@ export const login = async (req,res)=>{
             _id: user._id,
             fullname: user.fullname,
             email: user.email,
-            profilepic: user.profilepic
+            profilePic: user.profilePic
         }); 
 
     }
@@ -131,3 +135,37 @@ export const updateProfile = async (req,res)=>{
 
 }
 
+export const createFeedback = async (req, res) => {
+  try {
+    const { rating, message, category } = req.body;
+
+    if (!rating) {
+      return res.status(400).json({ message: "Rating is required" });
+    }
+
+    const feedback = await Feedback.create({
+      user: req.user._id,
+      rating,
+      message,
+      category
+    });
+
+    sendFeedbackEmail({
+      userName: req.user.name,
+      userEmail: req.user.email,
+      rating,
+      category,
+      message
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Feedback submitted successfully",
+      feedback
+    });
+
+  } catch (error) {
+    console.error("Feedback Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
