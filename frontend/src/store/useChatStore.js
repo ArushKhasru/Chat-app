@@ -33,7 +33,7 @@ export const useChatStore = create((set, get)=>({
             
         } catch (error) {
             
-            toast.error(error.response.data.message);
+            toast.error("error.response.data.message");
 
         }
         finally{
@@ -48,8 +48,7 @@ export const useChatStore = create((set, get)=>({
             const data = await res.json();
             set({chats: data});
         } catch (error) {
-            
-            toast.error(error.response.data.message);
+             toast.error(error?.response?.data?.message);
         }finally{
             set({isUsersLoading:false});
         }

@@ -37,7 +37,7 @@ export default function SignUpPage() {
             Create account
           </h1>
           <p className="text-slate-400 mt-2">
-            Join <span className="text-indigo-400 font-medium">BakBak</span> and start chatting
+            Join <span className="text-indigo-400 font-medium">Bakbac</span> and start chatting
           </p>
         </div>
 

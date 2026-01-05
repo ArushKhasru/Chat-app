@@ -20,7 +20,7 @@ export const createFeedbackEmail = ({
       </p>
 
       <hr />
-      <small>BakBak Feedback System</small>
+      <small>Bakbac Feedback System</small>
     </div>
   `;
 };

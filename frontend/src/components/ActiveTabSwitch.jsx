@@ -3,7 +3,7 @@ import { useChatStore } from '../store/useChatStore';
 import { MessageSquare, Users } from 'lucide-react';
 
 export default function ActiveTabSwitch() {
-  const { activeTab, setActiveTab } = useChatStore();
+  const { activeTab, setActivetab } = useChatStore();
 
   return (
     <div className="px-6 mb-6">
@@ -11,8 +11,8 @@ export default function ActiveTabSwitch() {
         
         {/* CHATS BUTTON */}
         <button
-          onClick={() => setActiveTab('chats')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 ${
+          onClick={() => setActivetab('chats')}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs cursor-pointer font-semibold transition-all duration-300 ${
             activeTab === 'chats'
               ? 'bg-[#7B61FF] text-white shadow-lg shadow-[#7B61FF]/30'
               : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
@@ -24,8 +24,8 @@ export default function ActiveTabSwitch() {
 
         {/* CONTACTS BUTTON */}
         <button
-          onClick={() => setActiveTab('contacts')}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 ${
+          onClick={() => setActivetab('contacts')}
+          className={`flex-1 flex cursor-pointer items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 ${
             activeTab === 'contacts'
               ? 'bg-[#7B61FF] text-white shadow-lg shadow-[#7B61FF]/30'
               : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'

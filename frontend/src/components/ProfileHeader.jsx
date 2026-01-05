@@ -6,8 +6,6 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useChatStore } from '../store/useChatStore';
 
 
-
-
 export default function ProfileHeader() {
   const mouseClickSound = new Audio("/sounds/mouse-click.mp3")
   const { authUser, updateProfile } = useAuthStore();
@@ -62,14 +60,6 @@ export default function ProfileHeader() {
                   className="hidden"
                 />
               </div>
-
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                className="hidden"
-              />
             </div>
           </div>
           <div>
