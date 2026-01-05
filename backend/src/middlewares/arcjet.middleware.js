@@ -9,12 +9,12 @@ export const arcjetProtection = async (req, res, next) =>{
             if(decision.reason.isRateLimit()){
                 return res.status(429).json({message: "Rate Limit Exceeded"})
             }
-            else if(decision.reason.isBot()){
-                return res.status(403).json({message: "No Acess for Bots"})
-            }
-            else{
-                return res.status(403).json({message: "Request Blocked due to security policy"})
-            }
+            // else if(decision.reason.isBot()){
+            //     return res.status(403).json({message: "No Acess for Bots"})
+            // }
+            // else{
+            //     return res.status(403).json({message: "Request Blocked due to security policy"})
+            // }
         }
         next();
 
