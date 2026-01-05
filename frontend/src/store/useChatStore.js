@@ -27,7 +27,7 @@ export const useChatStore = create((set, get)=>({
         set({isUsersLoading:true});
         try {
 
-            const res = await fetch("/message/contacts");
+            const res = await fetch("/message/contact");
             const data = await res.json();
             set({allContacts: data});
             
@@ -48,7 +48,7 @@ export const useChatStore = create((set, get)=>({
             const data = await res.json();
             set({chats: data});
         } catch (error) {
-             toast.error(error?.response?.data?.message);
+             toast.error("error?.response?.data?.message");
         }finally{
             set({isUsersLoading:false});
         }
