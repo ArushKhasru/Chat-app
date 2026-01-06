@@ -30,25 +30,29 @@ export default function ChatContainer() {
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar">
         <div className="max-w-4xl mx-auto w-full">
-          {!selectedUser ? (
-            <NoChatHistoryPlaceholder name="Select a contact to start chatting" />
-          ) : isMessagesLoading ? (
-            <MessagesLoadingSkeleton />
-          ) : messages.length > 0 ? (
-            <div className="space-y-4">
+          {messages.length > 0 && !isMessagesLoading ? (
+            <div className="max-w-3xl mx-auto space-y-6">
               {messages.map((msg) => (
                 <div
                   key={msg._id}
-                  className={`chat ${msg.senderId === authUser._id ? "chat-end" : "chat-start"
-                    }`}
+                  className={`chat ${msg.senderId === authUser._id ? "chat-end" : "chat-start"}`}
                 >
                   <div
-                    className={`chat-bubble max-w-[85%] md:max-w-[70%] p-3 md:p-4 rounded-3xl ${msg.senderId === authUser._id
-                        ? "bg-[#7B61FF] text-white"
-                        : "bg-[#2A283E] text-gray-200"
+                    className={`chat-bubble relative ${msg.senderId === authUser._id
+                        ? "bg-cyan-600 text-white"
+                        : "bg-slate-800 text-slate-200"
                       }`}
                   >
-                    {msg.text && <p>{msg.text}</p>}
+                    {msg.image && (
+                      <img src={msg.image} alt="Shared" className="rounded-lg h-48 object-cover" />
+                    )}
+                    {msg.text && <p className="mt-2">{msg.text}</p>}
+                    <p className="text-xs mt-1 opacity-75 flex items-center gap-1">
+                      {new Date(msg.createdAt).toLocaleTimeString(undefined, {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
                   </div>
                 </div>
               ))}
