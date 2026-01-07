@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useChatStore } from '../store/useChatStore';
 import UsersLoadingSkeleton from './UsersLoadingSkeleton';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function ContactList() {
   const { allContacts, getAllContacts, setSelectedUser, isUsersLoading, selectedUser } = useChatStore();
+  const {onlineUsers} = useAuthStore();
 
   useEffect(() => {
     getAllContacts();
@@ -25,7 +27,7 @@ export default function ContactList() {
         >
           {/* Avatar Section */}
           <div className="relative flex-shrink-0">
-            <div className="avatar avatar-online">
+            <div className={`avatar ${onlineUsers.includes(contact._id)?"avatar-online":"avatar-offline"}`}>
               <div className="w-12 h-12 rounded-full border border-white/10 overflow-hidden bg-[#3A384D]">
                 <img 
                   src={contact.profilePic || "/avatar.png"} 
