@@ -3,6 +3,14 @@ import { useChatStore } from '../store/useChatStore';
 import { X } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 
+/**
+ * Render the chat header for the currently selected user and provide controls to close the chat.
+ *
+ * Displays the user's avatar, display name, and an "Online"/"Offline" status; registers an Escape key
+ * handler and a close button that both clear the selected user.
+ *
+ * @returns {JSX.Element|null} The header UI when a user is selected, or `null` when no user is selected.
+ */
 export default function ChatHeader() {
   const { selectedUser, setSelectedUser } = useChatStore();
   const {onlineUsers} = useAuthStore();

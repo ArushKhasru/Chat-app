@@ -3,6 +3,17 @@ import { useChatStore } from '../store/useChatStore';
 import UsersLoadingSkeleton from './UsersLoadingSkeleton';
 import { useAuthStore } from '../store/useAuthStore';
 
+/**
+ * Render a selectable vertical list of contacts with avatars that indicate online status.
+ *
+ * On mount this component triggers a fetch for all contacts. While contacts are loading it
+ * renders a UsersLoadingSkeleton; once loaded it displays each contact as a clickable row
+ * that marks the contact as selected and highlights the selected item. Avatars show either
+ * the contact's profile picture or a default image, and their visual state reflects whether
+ * the contact is currently online.
+ *
+ * @returns {JSX.Element} A React element containing the contact list or a loading skeleton.
+ */
 export default function ContactList() {
   const { allContacts, getAllContacts, setSelectedUser, isUsersLoading, selectedUser } = useChatStore();
   const {onlineUsers} = useAuthStore();
