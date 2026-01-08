@@ -85,7 +85,7 @@ export const useChatStore = create((set, get) => ({
             isOptimistic: true,
         };
 
-        // ✅ Optimistic UI update
+        
         set((state) => ({
             messages: [...state.messages, optimisticMessage],
         }));
@@ -96,14 +96,14 @@ export const useChatStore = create((set, get) => ({
                 messageData
             );
 
-            // ✅ Replace optimistic message with DB message
+            
             set((state) => ({
                 messages: state.messages.map((msg) =>
                     msg._id === tempId ? res.data : msg
                 ),
             }));
         } catch (error) {
-            // ❌ Remove optimistic message on failure
+            
             set((state) => ({
                 messages: state.messages.filter((msg) => msg._id !== tempId),
             }));
