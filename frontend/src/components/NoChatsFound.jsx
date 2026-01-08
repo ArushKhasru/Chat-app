@@ -20,7 +20,7 @@ export default function NoChatsFound() {
           No Conversations Yet
         </h2>
         <p className="text-gray-400 text-sm italic leading-relaxed">
-          Bakbac, Where you can share Image and communicate with different users across the world
+          BakBak, Where you can share Image and communicate with different users across the world
         </p>
       </div>
 

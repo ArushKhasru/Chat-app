@@ -40,7 +40,7 @@ export default function LoginPage() {
             Welcome back
           </h1>
           <p className="text-slate-400 mt-2">
-            Login to <span className="text-indigo-400 font-medium">Bakbac</span>
+            Login to <span className="text-indigo-400 font-medium">BakBak</span>
           </p>
         </div>
 

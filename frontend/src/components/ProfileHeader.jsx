@@ -1,86 +1,98 @@
-import React from 'react'
-// import { Settings } from 'lucide-react';
-import { useState, useRef } from 'react';
-import { VolumeOff, Volume2Icon } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { VolumeOff, Volume2Icon, MessageSquare, LogOutIcon, Camera } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import { useChatStore } from '../store/useChatStore';
-
+import Feedback from './Feedback';
 
 export default function ProfileHeader() {
-  const mouseClickSound = new Audio("/sounds/mouse-click.mp3")
-  const { authUser, updateProfile } = useAuthStore();
+  const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
+  const { authUser, updateProfile, logout } = useAuthStore();
   const { isSoundEnabled, toggleSound } = useChatStore();
 
   const [selectedImg, setSelectedImg] = useState();
+  const [showFeedback, setShowFeedback] = useState(false);
   const fileInputRef = useRef(null);
+
   const handleImageUpload = (e) => {
-    const file = e.target.files[0]
-    if(!file) return 
+    const file = e.target.files[0];
+    if (!file) return;
 
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-    reader.onloadend =async ()=>{
+    reader.onloadend = async () => {
       const base64Image = reader.result;
       setSelectedImg(base64Image);
-      await updateProfile({profilePic: base64Image });
-    }
+      await updateProfile({ profilePic: base64Image });
+    };
+  };
 
-
-  }
   return (
-    <div>
-      <div className="p-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center ">
-            {/* AVATAR */}
-            <div className="avatar avatar-online ">
-              <div className="relative group">
-                <button
-                  onClick={() => fileInputRef.current.click()}
-                  className="relative w-14 h-14 rounded-full overflow-hidden cursor-pointer border-2 border-white/10"
-                >
-                  <img
-                    src={selectedImg || authUser.profilePic || "/avatar.png"}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white text-sm   text-center ">
-                      Change
-                    </span>
-                  </div>
-                </button>
+    <div className="p-5 border-b border-white/5 bg-[#1C1B2B]/30 backdrop-blur-md">
+      <div className="flex items-center justify-between">
 
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  className="hidden"
+        <div className="flex items-center gap-4">
+          <div className="relative group">
+            <div className="avatar">
+              <div className="w-12 h-12 rounded-full ring-2 ring-[#7B61FF]/50 ring-offset-2 ring-offset-[#1C1B2B] overflow-hidden">
+                <img
+                  src={selectedImg || authUser.profilePic || "/avatar.png"}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
-          </div>
-          <div>
-            <span className="font-bold text-lg italic tracking-wide">{authUser.fullname}</span>
-            <p className='text-slate-400 text-sm'>Online</p>
 
+            <button
+              onClick={() => fileInputRef.current.click()}
+              className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
+            >
+              <Camera className="text-white size-4" />
+            </button>
+
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <span className="font-bold text-white italic tracking-tight text-sm leading-tight">
+              {authUser.fullName || authUser.fullname}
+            </span>
+            <div className="flex items-center gap-1.5">
+              <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[#7B61FF] text-[9px] font-bold uppercase tracking-widest">Online</span>
+            </div>
           </div>
         </div>
-        {/* <Settings className="text-gray-400 hover:text-white cursor-pointer transition-colors" size={20} /> */}
-        {/* Sound Toogle BTN */}
-        <button className='cursor-pointer' onClick={() => {
-          //playclick sound before toggling
-          mouseClickSound.currentTime = 0;//reset to start
-          mouseClickSound.play().catch((error) => console.log("Audio play failed", error));
-          toggleSound();
-        }}>
-          {isSoundEnabled ? <Volume2Icon className='size-5' /> : <VolumeOff className='size-5' />}
-        </button>
 
+        <div className="flex items-center gap-0.5">
+
+          <button
+            className="p-2 rounded-xl hover:bg-white/5 text-gray-400 hover:text-[#7B61FF] transition-all active:scale-90 cursor-pointer"
+            onClick={() => {
+              mouseClickSound.currentTime = 0;
+              mouseClickSound.play().catch((error) => console.log("Audio play failed", error));
+              toggleSound();
+            }}
+          >
+            {isSoundEnabled ? <Volume2Icon size={18} /> : <VolumeOff size={18} />}
+          </button>
+
+          <button
+            onClick={logout}
+            className="md:hidden p-2 rounded-xl hover:bg-red-500/10 text-gray-400 hover:text-red-500 transition-all active:scale-90 cursor-pointer"
+          >
+            <LogOutIcon size={18} />
+          </button>
+        </div>
       </div>
 
+
     </div>
-  )
+  );
 }

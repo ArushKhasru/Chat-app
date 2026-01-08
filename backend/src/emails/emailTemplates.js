@@ -50,7 +50,7 @@ export const createwelcomeEmail = (name, clientURL) => {
 
               <p style="font-size:14px; color:#555555; margin-top:20px;">
                 Cheers,<br/>
-                <strong>Bakbac Team</strong>
+                <strong>BakBak Team</strong>
               </p>
             </td>
           </tr>
@@ -58,7 +58,7 @@ export const createwelcomeEmail = (name, clientURL) => {
           <!-- Footer -->
           <tr>
             <td style="background-color:#f4f6f8; padding:15px; text-align:center; font-size:12px; color:#888888;">
-              © ${new Date().getFullYear()} Bakbac. All rights reserved.
+              © ${new Date().getFullYear()} BakBak. All rights reserved.
             </td>
           </tr>
 

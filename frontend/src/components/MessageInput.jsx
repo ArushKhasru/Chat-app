@@ -45,7 +45,7 @@ function MessageInput() {
 
   return (
     <div className="p-4 bg-[#2A283E]/40 backdrop-blur-xl border-t border-white/5">
-      {/* 🔹 IMAGE PREVIEW AREA */}
+      
       {imagePreview && (
         <div className="mb-4 flex items-center gap-3 animate-in slide-in-from-bottom-2">
           <div className="relative group">
@@ -69,11 +69,11 @@ function MessageInput() {
         </div>
       )}
 
-      {/* 🔹 INPUT FORM */}
+      
       <form onSubmit={handleSendMessage} className="flex items-center gap-3">
         <div className="flex-1 flex items-center gap-2 bg-[#1C1B2B] border border-white/5 rounded-[1.5rem] px-4 py-1.5 focus-within:border-[#7B61FF]/50 focus-within:ring-1 focus-within:ring-[#7B61FF]/20 transition-all duration-300">
           
-          {/* Image Upload Trigger */}
+         
           <button
             type="button"
             className={`p-2 transition-all active:scale-90 ${
@@ -84,7 +84,7 @@ function MessageInput() {
             <ImageIcon size={22} />
           </button>
 
-          {/* Text Input */}
+          
           <input
             type="text"
             className="w-full bg-transparent border-[#2A283E] focus:ring-0 py-3 text-sm text-white placeholder:text-gray-600 italic tracking-tight"
@@ -97,7 +97,7 @@ function MessageInput() {
           />
         </div>
 
-        {/* Hidden File Input */}
+       
         <input
           type="file"
           accept="image/*"
@@ -106,7 +106,7 @@ function MessageInput() {
           onChange={handleImageChange}
         />
 
-        {/* Send Button */}
+       
         <button
           type="submit"
           disabled={!text.trim() && !imagePreview}

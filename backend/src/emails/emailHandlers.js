@@ -5,7 +5,7 @@ export const sendWelcomeEmail = async (email, name, clientURL) => {
     const {data, error} = await resendClient.emails.send({
         from: `${sender.name} <${sender.email}>`,
         to: email,
-        subject: "Welcome to Bakbac!",
+        subject: "Welcome to BakBak!",
         html: createwelcomeEmail(name, clientURL),
     })
     if(error){

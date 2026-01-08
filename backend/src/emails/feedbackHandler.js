@@ -11,7 +11,7 @@ export const sendFeedbackEmail = async ({
   const { data, error } = await resendClient.emails.send({
     from: `${userName} <${userEmail}>`,
     to: process.env.DEV_EMAIL,
-    subject: "📩 New User Feedback - Bakbac",
+    subject: "📩 New User Feedback - BakBak",
     html: createFeedbackEmail({
       userName,
       userEmail,
