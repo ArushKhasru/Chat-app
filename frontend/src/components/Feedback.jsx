@@ -40,7 +40,7 @@ export default function Feedback({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1C1C2D]/80 backdrop-blur-sm px-4">
-      {/* 🔹 GLASSMORPHISM CARD */}
+      {/* GLASSMORPHISM CARD */}
       <div className="w-full max-w-md rounded-[2rem] bg-[#252331]/90 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
 
         {/* Header */}

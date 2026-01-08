@@ -1,4 +1,3 @@
-// const express = require('express');
 import express from 'express';
 import { ENV } from './lib/env.js';
 import authRoutes from './routes/auth.route.js';

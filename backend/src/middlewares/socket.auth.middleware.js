@@ -17,8 +17,8 @@ export const socketAuthMiddleware = async (socket, next) => {
         const decoded = jwt.verify(token, ENV.JWT_SECRET);
         if(!decoded){
             console.log('socket connection rejected: Invalid token');
-             return next(new Error("Unauthorized - No token Provided")); 
-            
+             return next(new Error("Unauthorized - Invalid token"));
+
         }
         //find the user from db
         const user = await User.findById(decoded.userId).select("-password")
@@ -34,9 +34,9 @@ export const socketAuthMiddleware = async (socket, next) => {
         next()
         
     } catch (error) {
-        console.log('"Error in socket authentication', error.message);
+        console.log('Error in socket authentication', error.message);
         next(new Error("Unauthorized-Authentication failed"));
-        
+
 
 }
 }

@@ -1,15 +1,15 @@
-// import Message from "../models/message";
 import User from "../models/user.js";
 import Message from "../models/message.js";
 import cloudinary from "../lib/cloudinary.js";
+import { io, getReceiverSocketId } from "../lib/socket.js";
 
 export const getAllContacts = async (req, res) => {
     try {
 
         const loggedUserId = req.user._id;
-        const fliteredUsers = await User.find({ _id: { $ne: loggedUserId } }).select("-password");
+        const filteredUsers = await User.find({ _id: { $ne: loggedUserId } }).select("-password");
 
-        res.status(200).json(fliteredUsers);
+        res.status(200).json(filteredUsers);
     }
     catch (error) {
         console.log("Error in getting all contacts", error);
@@ -25,8 +25,8 @@ export const getMessagesByUserId = async (req, res) => {
 
         const messages = await Message.find({
             $or: [
-                { senderId: myId, recieverId: userToChatId },
-                { senderId: userToChatId, recieverId: myId },
+                { senderId: myId, receiverId: userToChatId },
+                { senderId: userToChatId, receiverId: myId },
             ],
         });
         res.status(200).json(messages);
@@ -60,6 +60,10 @@ export const sendMessage = async (req, res) => {
         //todo: send message to use in realtime using socket.io
 
         await newMessage.save();
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
 
         res.status(200).json(newMessage);
 
