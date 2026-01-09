@@ -2,7 +2,7 @@
 
 BakBak is a modern, real-time chat application built with React, Node.js, and Socket.io. It provides a seamless messaging experience with features like instant messaging, image sharing, online status indicators, and more.
 
-## Features
+## 🚀 Features
 
 ### Core Messaging
 - **Real-Time Messaging**: Instant message delivery using Socket.io
